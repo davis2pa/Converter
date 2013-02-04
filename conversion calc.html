@@ -1,0 +1,171 @@
+<HTML>
+
+<HEAD>
+
+<title>Conversion Calculator</title>
+
+</HEAD>
+
+<BODY bgcolor="#purple" TEXT="#C0C0C0" LINK="#E39F11" VLINK="#E39F11"><basefont size="3">
+
+<BR CLEAR=ALL>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+<!-- Generic Unit Conversion Program
+
+// Author    : Jonathan Weesner (jweesner@cyberstation.net)  21 Nov 95
+
+
+function convertform(form){
+
+    var firstvalue = 0;
+
+    for (var i = 1; i <= form.count; i++) {
+
+       // Find first non-blank entry
+
+       if (form.elements[i].value != null && form.elements[i].value.length != 0) {
+
+	  if (i == 1 && form.elements[2].value != "") return false;
+
+	  firstvalue = form.elements[i].value / form.elements[i].factor;
+
+	  break;
+
+       }
+
+    }
+
+    if (firstvalue == 0) {
+
+       clearform(form);
+
+       return false;
+
+    }
+
+    for (var i = 1; i <= form.count; i++)
+
+       form.elements[i].value = formatvalue((firstvalue * form.elements[i].factor), form.rsize);
+
+    return true;
+
+}
+
+function formatvalue(input, rsize) {
+
+   var invalid = "**************************";
+
+   var nines = "999999999999999999999999";
+
+   var strin = "" + input;
+
+   var fltin = parseFloat(strin);
+
+   if (strin.length <= rsize) return strin;
+
+   if (strin.indexOf("e") != -1 ||
+
+       fltin > parseFloat(nines.substring(0,rsize)+".4"))
+
+      return invalid.substring(0, rsize);
+
+   var rounded = "" + (fltin + (fltin - parseFloat(strin.substring(0, rsize))));
+
+   return rounded.substring(0, rsize);
+
+}
+
+function resetform(form) {
+
+    clearform(form);
+
+    form.elements[1].value = 1;
+
+    convertform(form);
+
+    return true;
+
+}
+
+function clearform(form) {
+
+    for (var i = 1; i <= form.count; i++) form.elements[i].value = "";
+
+    return true;
+
+}
+
+
+</SCRIPT><CENTER>
+
+<FORM method="post">
+
+<TABLE BORDER=2 cellpadding=3 cellspacing=0>
+
+<TR>
+
+<TD COLSPAN=3 ALIGN=CENTER VALIGN=MIDDLE>
+
+<font size="+1" color="#E01662"><A NAME="distance"><b>Distance Unit Conversion Calculator</b></A></font>
+
+</TD>
+
+</TR><TR>
+
+<TD ALIGN=CENTER>km/L</TD>
+
+<TD ALIGN=CENTER>MPG</TD>
+
+<TD><INPUT TYPE="button" VALUE="Reset to 1" onclick="resetform(this.form)"></TD>
+
+</TR><TR>
+
+<TD><INPUT TYPE=TEXT NAME=val1 SIZE=7 onfocus="clearform(this.form)"></TD>
+
+<TD><INPUT TYPE=TEXT NAME=val2 SIZE=7 onfocus="clearform(this.form)"></TD>
+
+<TD><INPUT TYPE="button"  VALUE="Calculate" onclick="convertform(this.form)"></TD>
+
+</TR>
+
+</TABLE>
+
+</FORM></center>
+
+<SCRIPT LANGUAGE="JavaScript">
+
+<!-- Set conversion factors for each item in form. All
+
+// factors must convert the first item to the current item.
+
+// Be sure to use the correct form index. The first form is
+
+// always index "0" and remaining forms are numbered in the
+
+// order they appear in the document.
+
+document.forms[0].count = 2;  // number of unit types
+
+document.forms[0].rsize = 7;  // Rounding size, use same as SIZE
+
+document.forms[0].val1.factor = 1;            // km/l to mpg.
+
+document.forms[0].val2.factor = 2.35215; // km/l to mpg.
+
+
+<!-- done hiding from old browsers -->
+
+</SCRIPT>
+
+<br><center>
+
+
+
+
+</CENTER>
+
+</BODY>
+
+</HTML>
